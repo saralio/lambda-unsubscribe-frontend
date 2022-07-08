@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style type="text/css">
+        {% include "./static/style.css" %}
+    </style>
+</head>
+
+<body>
+
+    <div class="title">
+        <h1><a href="https://twitter.com/data_question">#RStats</a> Question A Day</h1>
+    </div>
+
+    <div class="login-box">
+        <form id="deregister-user">
+            <div class="user-box">
+                <input type="email" name="emailId" id="emailId" value="{{ unsub_data['email_id'] }}">
+                <label for="emailId">Email Id</label>
+            </div>
+            <div class="user-box">
+                <input type="text" name="deregisterSuggestion" id="deregisterSuggestion">
+                <label for="deregisterSuggestion">Any suggestions?</label>
+            </div>
+            <div class="unsubscribe">
+                <a href="{{ unsub_data['url'] }}" id="deregisterLink">
+                    Unsubscribe
+                </a>
+                <div class="deregisterSuccess" id="deregisterSuccessText">
+                    <p>Thanks for using the service. You have unsubscribed successfully.</p>
+                </div>
+                <div class="deregisterUnsuccessful" id="deregisterUnSuccessfulText">
+                    <p>Unable to Unsubscribe, please try after sometime.</p>
+                </div>
+                <div class="emailCheck" id="emailCheck">
+                    <p>Incorrect email Id provided. Please provide correct email to register.</p>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        {% include "./static/script.js" %}
+    </script>
+
+</body>
+
+</html>
