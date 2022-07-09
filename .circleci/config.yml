@@ -77,7 +77,7 @@ commands:
           else
               baseUrl=$MY_ENV-deregister.saral.club
           fi
-          statusCode=$(curl -i -L GET "$baseUrl/emailId/<< parameters.email_id >>" 2>/dev/null | head -n 1 | cut -d$' ' -f2)
+          statusCode=$(curl -i -L GET "$baseUrl/emailId/<< parameters.email_id >>" 2>/dev/null | sed 1,12d| head -n 1 | cut -d$' ' -f2)
           if [[ $statusCode != 200 ]]; then
             echo deployment failed with statuscode $statusCode
             exit 1
