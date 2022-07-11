@@ -24,7 +24,10 @@ async function changeButtons(url) {
 async function handleFormSubmit(event) {
     event.preventDefault();
 
-    const url = document.getElementById('deregisterLink').getAttribute('href')
+    const baseUrl = document.getElementById('deregisterLink').getAttribute('href')
+    const emailId = document.getElementById('emailId').value
+    const suggestion = document.getElementById('deregisterSuggestion').value
+    const url = baseUrl + "emailId=" + emailId + "&" + "suggestion=" + suggestion
 
     try {
         const responseData = await changeButtons(url);

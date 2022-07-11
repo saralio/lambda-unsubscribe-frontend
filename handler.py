@@ -23,7 +23,7 @@ def serve_html(event, context):
     print(f'unsubscribing for {email_id}')
     env = os.environ['MY_ENV']
 
-    url = f"{env}-deregister.saral.club/emailId/{email_id}"
+    url = f"{env}-remove-db.saral.club/unsubscribe?"
     unsub_data = {
         'email_id': email_id,
         'url': url
