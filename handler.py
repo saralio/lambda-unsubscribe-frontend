@@ -11,19 +11,20 @@ def create_env_api_url(url: str) -> str:
     Returns:
         str: `test-deregister.saral.club` for test/stg environment and `deregister.saral.club` for prod environments
     """
+    if url.startswith('http'):
+        url = url.split('//')[-1]
+
     env = os.environ['MY_ENV']
     if env != 'prod':
         url = f'{env}-{url}'
-    return url
-
+    return f'https://{url}'
 
 def serve_html(event, context):
     email_id = event['pathParameters']['email_id']
 
     print(f'unsubscribing for {email_id}')
-    env = os.environ['MY_ENV']
 
-    url = f"{env}-remove-db.saral.club/unsubscribe?"
+    url = create_env_api_url(url='remove-db.saral.club/unsubscribe?')
     unsub_data = {
         'email_id': email_id,
         'url': url

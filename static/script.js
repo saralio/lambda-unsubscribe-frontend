@@ -1,9 +1,20 @@
-async function changeButtons(url) {
-    var unsubscribeButton = document.getElementById("deregisterLink")
-    var deregisterSuccessText = document.getElementById("deregisterSuccessText")
-    var deregisterUnsuccessText = document.getElementById("deregisterUnSuccessfulText")
+async function handleFormSubmit(event) {
+    event.preventDefault();
 
-    const response = await fetch(url);
+    var unsubscribeButton = document.getElementById("deregisterLink");
+    var deregisterSuccessText = document.getElementById("deregisterSuccessText");
+    var deregisterUnsuccessText = document.getElementById("deregisterUnSuccessfulText");
+    let baseUrl = document.getElementById('deregisterLink').getAttribute('href');
+    let emailId = document.getElementById('emailId').value;
+    let suggestion = document.getElementById('deregisterSuggestion').value;
+    let url = suggestion == '' ? baseUrl + 'emailId=' + emailId : baseUrl + 'emailId=' + emailId + '&suggestion=' + suggestion;
+
+    try {
+        var response = await fetch(url);
+    } catch (error) {
+        console.error(error);
+        var response = {ok: false, text: error} 
+    }
 
     if (response.ok) {
         unsubscribeButton.style.display = "none"
@@ -14,27 +25,10 @@ async function changeButtons(url) {
         unsubscribeButton.style.display = "none"
         deregisterSuccessText.style.display = "none"
         deregisterUnsuccessText.style.display = "block"
-        const errorMessage = await response.text();
+        const errorMessage = response.text;
         throw new Error(errorMessage);
     }
 
-
-}
-
-async function handleFormSubmit(event) {
-    event.preventDefault();
-
-    const baseUrl = document.getElementById('deregisterLink').getAttribute('href')
-    const emailId = document.getElementById('emailId').value
-    const suggestion = document.getElementById('deregisterSuggestion').value
-    const url = baseUrl + "emailId=" + emailId + "&" + "suggestion=" + suggestion
-
-    try {
-        const responseData = await changeButtons(url);
-        console.log({ responseData });
-    } catch (error) {
-        console.error(error);
-    }
 }
 
 const unsubscribeEvent = document.getElementsByClassName('unsubscribe');
