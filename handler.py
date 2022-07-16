@@ -1,33 +1,21 @@
 import os
 from jinja2 import Environment, FileSystemLoader
-
-
-def create_env_api_url(url: str) -> str:
-    """depending on the environment variable returns the api url. Attaches the environment variable at the beggining of api url e.g. `test-deregister.saral.club`. But for prod it's without env i.e. `deregister.saral.club`
-
-    Args:
-        url (str): URL string
-
-    Returns:
-        str: `test-deregister.saral.club` for test/stg environment and `deregister.saral.club` for prod environments
-    """
-    if url.startswith('http'):
-        url = url.split('//')[-1]
-
-    env = os.environ['MY_ENV']
-    if env != 'prod':
-        url = f'{env}-{url}'
-    return f'https://{url}'
+from saral_utils.utils.frontend import ShareLinks
+from saral_utils.utils.env import create_env_api_url
 
 def serve_html(event, context):
     email_id = event['pathParameters']['email_id']
 
     print(f'unsubscribing for {email_id}')
 
+    sl = ShareLinks()
+    twitter_account_link = sl.twitter_account_link
+    navbar_links = {'twitter_account_link': twitter_account_link}
     url = create_env_api_url(url='remove-db.saral.club/unsubscribe?')
     unsub_data = {
         'email_id': email_id,
-        'url': url
+        'url': url,
+        'navbar_links': navbar_links
     }
 
     jinja_env = Environment(loader=FileSystemLoader('.'))
