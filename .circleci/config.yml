@@ -53,15 +53,7 @@ commands:
     description: test lambda package locally
     steps:
       - run: pip3 install -r ./requirements/requirements-<< parameters.branch_name >>.txt
-      - run: |
-          statusCode=$(sls invoke local -f unsubscribe -d '<< parameters.test_data >>' 2>/dev/null | sed -n -e '/{/,$p')
-          if [[ $statusCode != 200 ]]; then 
-            echo $statusCode
-            exit 1 
-          else 
-            echo $statusCode
-            exit 0 
-          fi
+      - run: sls invoke local -f unsubscribe -d '<< parameters.test_data >>' 
     parameters:
       test_data:
         default: '{"pathParameters": {"email_id": "xyz@saral.club"}}'
